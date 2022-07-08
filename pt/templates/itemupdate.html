@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+
+<div class="container mt-2">
+    <div class="row justify-content-center">
+        <div class="col-sm-8 form-group">
+            <form action="" method='POST'>
+            {% csrf_token %}
+            ID: {{itms.id}}
+            <div class="mb-3">
+                <label for="itemname" class="form-label">Name</label>
+                <input type="text" class="form-control" value={{itms.item}} id="itemname" name="itemname">
+            </div>
+            <div class="mb-3">
+                <label for="itemrate" class="form-label">Rate</label>
+                <input type="number" class="form-control" value={{itms.rate}} id="itemrate" name="itemrate">
+            </div>
+            <input type="submit" class='btn btn-info my-3 px-4' value="Update">
+            </form>
+        </div>
+    </div>
+</div>
+
+  {% endblock body %}

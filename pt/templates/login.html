@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container text-center col-md-3 border p-3 border-info rounded shadow-lg">
+    <img class='w-50' src="https://www.textileinfomedia.com/img/djuv/p-t-garment-logo-thumb.png" alt="">
+
+    <form method='POST'>
+        {% csrf_token %}
+      <div class="form-outline my-4">
+        <input type="text" id="id_username" name='username' class="form-control" placeholder="Username" />
+        {% comment %} <label class="form-label" for="id_username">Username</label> {% endcomment %}
+      </div>
+
+      <div class="form-outline mb-5 ">
+        <input type="password" id="id_password" name='password' class="form-control" placeholder="Password" />
+        {% comment %} <label class="form-label" for="id_password">Password</label> {% endcomment %}
+      </div>
+
+      <input class='btn btn-primary px-5' type="submit" value="Log In">
+      
+    </form>
+</div>
+
+{% endblock body %}

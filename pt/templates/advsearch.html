@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_filters %}
+
+{% block body %}
+{% comment %} <h1>hello</h1> {% endcomment %}
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-sm-11 form-group">
+      <form action="/advsearch/" method='POST' class='mt-4'>
+          {% csrf_token %}
+          <label class="form-label fw-bold fs-5">Party Code:</label>
+          <div class='justify-content-around'>
+            {% for m in partycodes %}
+            <input class="form-check-input" value="{{m.partycode}}" type="radio" name="partycode" id="{{m.partycode}}">
+            <label class="form-check-label" for="{{m.partycode}}">{{m.partycode}}</label>
+            {% endfor %}
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold fs-5 mt-3" for="color1">Color:</label>
+            <input type="number" class="form-control" id="color1" name='color'>
+        </div>
+        <label class="form-label fw-bold fs-5">Fabric:</label>
+        <div>
+          {% for m in fabnames %}
+          <input class="form-check-input" value="{{m.fabname}}" type="radio" name="fabname" id="{{m.fabname}}">
+          <label class="form-check-label" for="{{m.fabname}}">{{m.fabname}}</label>
+          {% endfor %}
+        </div>
+        <label class="form-label fw-bold fs-5 mt-3">Maker:</label>
+        <div>
+          {% for m in makers %}
+          <input class="form-check-input" value="{{m.maker}}" type="radio" name="maker" id="{{m.maker}}">
+          <label class="form-check-label" for="{{m.maker}}">{{m.maker}}</label>
+          {% endfor %}
+        </div>
+        <label class="form-label fw-bold fs-5 mt-3">Item:</label>
+        <div>
+          {% for m in items %}
+          <input class="form-check-input" value="{{m.item}}" type="radio" name="item" id="{{m.item}}">
+          <label class="form-check-label" for="{{m.item}}">{{m.item}}</label>
+          {% endfor %}
+        </div>
+        <label class="form-label fw-bold fs-5 mt-3">Completed:</label>
+        <div>
+          <input class="form-check-input" value='True' type="radio" name="completed" id="completed1">
+          <label class="form-check-label me-3" for="completed">Yes</label>
+          <input class="form-check-input" value='False' type="radio" name="completed" id="completed2">
+          <label class="form-check-label" for="completed">No</label>
+        </div>
+        <input type="submit" class='btn btn-info my-3 px-4' value="search">
+      </form>
+      
+      
+      <div class='table-responsive-md'>
+        {% if request.user_agent.is_mobile %}
+        <table class="table table-hover ">
+          <thead>
+            <tr>
+              <th scope="col">Sr No</th>
+              <th scope="col">PartyCode</th>
+              <th scope="col">Color</th>
+              <th scope="col">Meter</th>
+              <th scope="col">Fabric</th>
+              <th scope="col">Maker</th>
+              <th scope="col">Time</th>
+              <th scope="col">Cutting</th>
+              <th scope="col">Timing</th>
+              <th scope="col">Item</th>
+              <th scope="col">Received</th>
+              <th scope="col">GR</th>
+              <th scope="col">Completed</th>
+              <th scope="col">HisabClear</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for fab in fabs reversed %}
+            <tr>
+              <th scope="row">{{fab.id}}</th>
+              <td>{{fab.partycode}}</td>
+              <td>{{fab.color}}</td>
+              <td>{{fab.meter}}</td>
+              <td>{{fab.fabric}}</td>
+              <td>{{fab.maker}}</td>
+              <td>{{fab.time}}</td>
+              <td>{{fab.cutting}}</td>
+              <td>{{fab.cut_time}}</td>
+              <td>{{fab.item}}</td>
+              <td>{{fab.rec_pcs}}</td>
+              <td>{{fab.gr_pcs}}</td>
+              <td>{{fab.completed}}</td>
+              <td>{{fab.hsb_clr}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        {% for fab in fabs reversed %}
+        <div class="col-12 border alert alert-info shadow p-0 fw-bold">
+          <table class="table table-borderless ms-md-4 m-0">
+            <tbody>
+              <tr>
+                <td class='py-1'><small>SrNo:</small><button class='badge bg-primary border-0 p-1'>{{fab.id}}</button></td>
+                <td class='py-1'><small>Party:</small><button class='badge bg-primary border-0 p-1'>{{fab.partycode}}</button></td>
+                <td class='py-1'><small>Color:</small><button class='badge bg-primary border-0 p-1'>{{fab.color}}</button></td>
+              </tr>
+              <tr>
+                <td class='py-1'><small>Meter:</small><button class='badge bg-primary border-0 p-1'>{{fab.meter}}</button></td>
+                <td class='py-1'><small>Fabric:</small><button class='badge bg-primary border-0 p-1'>{{fab.fabric}}</button></td>
+                <td class='py-1'><small>Maker:</small><button class='badge bg-primary border-0 p-1'>{{fab.maker}}</button></td>
+              </tr>
+              <tr>
+                <td class='py-1'><small>Time:</small> <button class='badge bg-primary border-0 p-1'>{{fab.time|date:"D d M"}}</button></td>
+                <td class='py-1'><small>Cutting:</small><button class='badge bg-primary border-0 p-1'>{{fab.cutting}}</button></td>
+                <td class='py-1'><small>Item:</small><button class='badge bg-primary border-0 p-1'>{{fab.item}}</button></td>
+              </tr>
+              <tr>
+                <td class='py-1'><small>Received:</small><button class='badge bg-primary border-0 p-1'>{{fab.rec_pcs}}</button></td>
+                <td class='py-1'><small>GR:</small><button class='badge bg-primary border-0 p-1'>{{fab.gr_pcs}}</button></td>
+                <td class='py-1'><small>Completed:</small><button class='badge bg-primary border-0 p-1'>{{fab.completed}}</button></td>
+              </tr>
+              <tr>
+                <td colspan='2' class='py-1'><small>CutTime:</small><button class='badge bg-primary border-0 p-1'> {{fab.cut_time}}</button></td>
+                <td class='py-1'><small>HisabClr:</small><button class='badge bg-primary border-0 p-1'>{{fab.hsb_clr}}</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

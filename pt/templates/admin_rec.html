@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="row justify-content-center">
+  <div class='col-md-7 mt-1'>
+    <h1 class="fs-5 text-center alert alert-primary" role="alert">{{mkr}} Received</h1>
+  </div>
+</div>
+<div class="container">
+  <div class="row justify-content-center">
+    {% if request.user_agent.is_mobile == False %}
+    <div class="col-sm-10 form-group">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Sr No</th>
+            <th scope="col">PartyCode</th>
+            <th scope="col">Color</th>
+            <th scope="col">Meter</th>
+            <th scope="col">Fabric</th>
+            <th scope="col">Maker</th>
+            <th scope="col">Time</th>
+            <th scope="col">Cutting</th>
+            <th scope="col">Timing</th>
+            <th scope="col">Item</th>
+            <th scope="col">Received</th>
+            <th scope="col">GR</th>
+            <th scope="col">Completed</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for fab in fabs reversed %}
+          <tr>
+            <th scope="row">{{fab.id}}</th>
+            <td>{{fab.partycode}}</td>
+            <td>{{fab.color}}</td>
+            <td>{{fab.meter}}</td>
+            <td>{{fab.fabric}}</td>
+            <td>{{fab.maker}}</td>
+            <td>{{fab.time}}</td>
+            <td>{{fab.cutting}}</td>
+            <td>{{fab.cut_time}}</td>
+            <td>{{fab.item}}</td>
+            <td>{{fab.rec_pcs}}</td>
+            <td>{{fab.gr_pcs}}</td>
+            <td>{{fab.completed}}</td>
+            <td>
+              {% if fab.completed == False %}
+              <a href='{% url 'adminrecedit' mkr fab.id %}' class='btn btn-sm btn-success'>Upadte</a>
+              {% else %}
+              <a href='{% url 'adminrecedit' mkr fab.id %}' class='btn btn-sm btn-danger'>Upadte</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    {% for fab in fabs reversed %}
+    <div class="col-12 border alert alert-info shadow p-0 fw-bold">
+      <table class="table table-borderless ms-md-4 m-0">
+        <tbody>
+          <tr>
+            <td class='py-1'><small>SrNo:</small><button class='badge bg-primary border-0 p-1'>{{fab.id}}</button></td>
+            <td class='py-1'><small>Party:</small><button class='badge bg-primary border-0 p-1'>{{fab.partycode}}</button></td>
+            <td class='py-1'><small>Color:</small><button class='badge bg-primary border-0 p-1'>{{fab.color}}</button></td>
+          </tr>
+          <tr>
+            <td class='py-1'><small>Meter:</small><button class='badge bg-primary border-0 p-1'>{{fab.meter}}</button></td>
+            <td class='py-1'><small>Fabric:</small><button class='badge bg-primary border-0 p-1'>{{fab.fabric}}</button></td>
+            <td class='py-1'><small>Maker:</small><button class='badge bg-primary border-0 p-1'>{{fab.maker}}</button></td>
+          </tr>
+          <tr>
+            <td class='py-1'><small>Time:</small> <button class='badge bg-primary border-0 p-1'>{{fab.time|date:"D d M"}}</button></td>
+            <td class='py-1'><small>Cutting:</small><button class='badge bg-primary border-0 p-1'>{{fab.cutting}}</button></td>
+            <td class='py-1'><small>Item:</small><button class='badge bg-primary border-0 p-1'>{{fab.item}}</button></td>
+          </tr>
+          <tr>
+            <td class='py-1'><small>Received:</small><button class='badge bg-primary border-0 p-1'>{{fab.rec_pcs}}</button></td>
+            <td class='py-1'><small>GR:</small><button class='badge bg-primary border-0 p-1'>{{fab.gr_pcs}}</button></td>
+            <td class='py-1'><small>Completed:</small><button class='badge bg-primary border-0 p-1'>{{fab.completed}}</button></td>
+          </tr>
+          <tr>
+            <td  colspan='2' class='py-1'><small>CutTime:</small><button class='badge bg-primary border-0 p-1'>{{fab.cut_time}}</button></td>
+            <td class='text-end'>
+              <a href='{% url 'deleteindi' mkr fab.id %}' class='btn btn-sm btn-outline-danger p-1 mx-1'>Delete</a>
+              <a href='{% url 'updateindi' mkr fab.id %}' class='btn btn-sm btn-outline-success'>Upadte</a>
+            </td>                
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+</div>
+
+{% endblock body %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="row justify-content-center">
+  <div class='col-md-7'>
+    <h1 class="fs-5 text-center alert alert-primary" role="alert">{{mkr}}</h1>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    {% for fab in fabs reversed %}
+    <div class="col-sm-8 border alert alert-info shadow p-0 fw-bold">
+        <table class="table table-borderless ms-md-4 m-0">
+          <tbody>
+            <tr>
+              <td class='py-1'><small>SrNo: </small><button class='badge bg-primary border-0 p-1'>{{fab.id}}</button></td>
+              <td class='py-1'><small>Party: </small><button class='badge bg-primary border-0 p-1'>{{fab.partycode}}</button></td>
+              <td class='py-1'><small>Color: </small><button class='badge bg-primary border-0 p-1'>{{fab.color}}</button></td>
+            </tr>
+            <tr>
+              <td class='py-1'><small>Meter: </small><button class='badge bg-primary border-0 p-1'>{{fab.meter}}</button></td>
+              <td class='py-1'><small>Fabric: </small><button class='badge bg-primary border-0 p-1'>{{fab.fabric}}</button></td>
+              <td class='py-1'><small>Time: </small><button class='badge bg-primary border-0 p-1'>{{fab.time|date:"D d M"}}</button></td>
+            </tr>
+            <tr>
+              <td class='py-1'><small>Cutting: </small><button class='badge bg-primary border-0 p-1'>{{fab.cutting}}</button></td>
+              <td class='py-1'><small>Item: </small><button class='badge bg-primary border-0 p-1'>{{fab.item}}</button></td>
+              <td class='py-1'><small>Maker: </small><button class='badge bg-primary border-0 p-1'>{{fab.maker}}</button></td>
+            </tr>
+            <tr>
+              <td colspan="2" class='py-1'><small>CutTime:</small><button class='badge bg-primary border-0 p-1'>{{fab.cut_time|date:"D d M"}}</button></td>
+              <td class='py-1'>{% if fab.cutting == 0 %}
+                <a href='{% url 'makeredit' mkr fab.id %}' class='btn btn-sm btn-outline-success m-1 ms-4'>Upadte</a>
+                {% else %}
+                <p>NA</p>
+                {% endif %}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    {% endfor %}
+    
+  </div>
+</div>
+
+{% endblock body %}
